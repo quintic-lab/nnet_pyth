@@ -58,11 +58,11 @@ in_dim = XI.shape[1]
 n_nodes = 60
 L1 = Layer('tanh', n_nodes, in_dim)
 
-L2 = OutputLayer('sse', 'linear', 1, n_nodes )  #
+L2 = OutputLayer('sse', 'identity', 1, n_nodes  )  #
 
 eta = 0.001
 
-iters, sErr = 200, np.Infinity
+iters, sErr = 50, np.Infinity
 TrEnt = []
 TeEnt = []
 for i in range(iters):
@@ -95,6 +95,7 @@ for i in range(iters):
           round(train_err, 4))
     TrEnt.append(train_err)
     TeEnt.append(test_err)
+
 
 
 
