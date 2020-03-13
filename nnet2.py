@@ -17,8 +17,8 @@ the sinc function nnet learning won't work
 """
 
 import numpy as np
-from annet.layer import Layer
-from annet.output_layer import OutputLayer
+from layer import Layer
+from output_layer import OutputLayer
 
 
 
