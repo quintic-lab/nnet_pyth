@@ -6,7 +6,9 @@ Created on Sat Dec  9 22:20:54 2017
 
 This works tested as of 12/03/2020
 
-2 hidden layers
+2 hidden layers but no bias
+
+runs fine
 """
 import numpy as np
 
@@ -63,8 +65,8 @@ Y = ytrue + 0.4 * np.random.randn(n, m)
 n_te = int(n * 0.5)
 import random
 
-te_ind = random.sample(list(range(n)), n_te)
-tr_ind = list(set(list(range(n))) - set(te_ind))
+te_ind = random.sample(range(n), n_te)
+tr_ind = ~np.isin(range(n), te_ind)
 
 Xte, Yte = X[te_ind, :], Y[te_ind]
 Xtr, Ytr = X[tr_ind, :], Y[tr_ind]

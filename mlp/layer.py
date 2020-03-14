@@ -14,11 +14,11 @@ class Layer:
         self.n_inputs = n_inputs
         self.activ = activ
         self.biasVal = float(bias)  # this is to use later in the training
-        self.acfunc, self.deriv_out = activ_func[activ]
 
         self.w = 2 * np.random.random([n_nodes, n_inputs + 1]) - 1
-        if not activ in ['identity', 'sigmoid', 'tanh']:
+        if not activ.lower() in ['identity', 'sigmoid', 'tanh']:
             print("Allowed activation function : linear,sigmoid,tanh")
+        self.acfunc, self.deriv_out = activ_func[activ.lower()]
 
         if not bias:
             self.w[:, -1] = 0.0

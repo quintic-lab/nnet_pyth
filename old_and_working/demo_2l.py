@@ -14,12 +14,13 @@ most likely to enable bias only in the output node.
 
 As we have seen in previous examples, if we don't use bias term
 the sinc function nnet learning won't work
+
+This runs fine 14/03/2020
 """
 
 import numpy as np
-from layer import Layer
-from output_layer import OutputLayer
-
+from mlp.layer import Layer
+from mlp.output_layer import OutputLayer
 
 
 #----------------------------------------------------------
@@ -35,7 +36,8 @@ import random
 n_tr = int(0.5*n)  # split 50/50
 
 tr_ix = random.sample(range(n),n_tr)
-te_ix = list(set(range(n))-set(tr_ix))
+te_ix = ~np.isin(range(n), tr_ix)
+
 
 Xtr, Ytr = XI[tr_ix,:], YI[tr_ix,:]
 Xte, Yte = XI[te_ix,:], YI[te_ix,:]
@@ -82,8 +84,8 @@ for i in range(iters):
         delta1 = delta2 * L1.deriv_out(o1)
         L1.w += -eta * delta1.reshape(-1, 1) * np.hstack((o0, L1.biasVal))
 
-    _tr = L2.costFunc(Ytr, L2.score(Xtr, L1))
-    _te = L2.costFunc(Yte, L2.score(Xte, L1))
+    _tr = L2.costFunc(Ytr, L2.predict_1hid_layer(Xtr, L1))
+    _te = L2.costFunc(Yte, L2.predict_1hid_layer(Xte, L1))
 
     train_err = float(sum(_tr))
     test_err = float(sum(_te))

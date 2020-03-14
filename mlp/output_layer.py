@@ -1,4 +1,4 @@
-from layer import *
+from mlp.layer import *
 
 
 class OutputLayer(Layer):
@@ -31,13 +31,13 @@ class OutputLayer(Layer):
             pass
         return tmp, tmp1p
 
-    def score(self, x, prevLayer):
+    def predict_1hid_layer(self, x, prevLayer):
         # default is one hidden layer
         o1 = prevLayer.feedData(x)
         o2 = self.feedData(o1)
         return o2
 
-    def score2(self, x, Layer2, Layer1):
+    def predict(self, x, Layer1, Layer2):
         # NNET with 3 layers (2 hidden) current is L3
         o1 = Layer1.feedData(x)
         o2 = Layer2.feedData(o1)
