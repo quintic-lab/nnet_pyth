@@ -105,8 +105,7 @@ for i in range(iters):
         L2.w += -eta * delta2 * o1.reshape(1, -1)
 
         delta1 = np.dot(L1.deriv_out(o1), delta2.T)
-        for node_id in range(L2.n_nodes):
-            L1.w += -eta * delta1[:, node_id].reshape(-1, 1) * o0
+        L1.w += -eta *np.sum(delta1 *o0.reshape(1, -1), axis=1).reshape(-1,1)
 
     resid = Yte - score(Xte)
     valid_err = float(sum(resid ** 2))

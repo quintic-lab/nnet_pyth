@@ -19,10 +19,12 @@ obj_func = {
 
 
 class mlp:
+
     col = (-1,1)
     row = (1,-1)
 
-    def __init__(self, learning_rate, n_epochs, batch_size=-1, error_func='sse', shuffle=False):
+    def __init__(self, learning_rate, n_epochs, batch_size=-1,
+                 error_func='sse', shuffle=False):
         self.learning_rate = learning_rate
         self.batch_size = batch_size
         self.shuffle = shuffle
@@ -59,14 +61,13 @@ class mlp:
                 layers[1].w += -eta * delta2 * o1.reshape(self.row)
 
                 delta1 = np.dot(layers[0].deriv_out(o1), delta2.T)
-                for node_id in range(layers[1].n_nodes):
-                    layers[0].w += -eta * delta1[:, node_id].reshape(self.col) * o0
+                layers[0].w = -eta * np.sum( delta1 * o0.reshape(1, -1),
+                                             axis=1).reshape(-1, 1)
 
             train_err = self.cost_func( y_train, self.predict(x_train) )
             valid_err = self.cost_func( y_valid, self.predict(x_valid) )
-            print("epoch= %4d   train_error =  %6.4f   test_error =  %6.4f"%(epoch, train_err, valid_err))
-
-
+            print("epoch= %4d   train_error =  %6.4f   test_error =  "
+                  "%6.4f"%(epoch, train_err, valid_err))
 
     def predict(self, x):
         pred = x.copy()
